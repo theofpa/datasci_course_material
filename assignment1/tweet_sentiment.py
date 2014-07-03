@@ -25,7 +25,7 @@ def main():
     for tweet in tweets:
         total=0
         for word in tweet["text"].split():
-            if word in scores.keys():
+            if word.encode('UTF8') in scores.keys():
                 total=total+scores[word]
         print total
 
