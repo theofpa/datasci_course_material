@@ -3,27 +3,31 @@ import json
 
 def parse_afin(afinfile):
     afinnfile = open(afinfile)
-    scores = {} # initialize an empty dictionary
+    scores = {}
     for line in afinnfile:
-        term, score  = line.split("\t")  # The file is tab-delimited. "\t" means "tab character"
-        scores[term] = int(score)  # Convert the score to an integer.
-
-    print scores.items() # Print every (term, score) pair in the dictionary
+        term, score  = line.split("\t")
+        scores[term] = int(score)
+    return scores
 
 def parse_tweets(tweetfile):
     tweets=[]
     tweets_file=open(tweetfile)
     for line in tweets_file:
-        tweet=json.loads(line)
-        print tweet["text"]
+        tweets.append(json.loads(line))
+    return tweets
 
 def lines(fp):
     print str(len(fp.readlines()))
 
 def main():
-    #parse_afin(sys.argv[1])
-    parse_tweets(sys.argv[2])
-    #lines(tweet_file)
+    scores=parse_afin(sys.argv[1])
+    tweets=parse_tweets(sys.argv[2])
+    for tweet in tweets:
+        total=0
+        for word in tweet["text"].split():
+            if word in scores.keys():
+                total=total+scores[word]
+        print total
 
 if __name__ == '__main__':
     main()
