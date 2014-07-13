@@ -30,7 +30,7 @@ def main():
         #print total
         for word in tweet["text"].split():
             if word.encode('UTF8') not in scores.keys():
-                print word,", ", total
+                print "%s %s" % (word.encode('UTF8'),total)
 
 if __name__ == '__main__':
     main()
