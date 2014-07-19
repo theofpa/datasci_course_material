@@ -19,9 +19,9 @@ def mapper(record):
     if recordtype=='order':
       for i in range(2,9):
         data.append(record[i])
-        mr.emit_intermediate(recordtype, order_id, data)
+        mr.emit_intermediate(order_id, data)
 
-def reducer(recordtype, order_id, data):
+def reducer(order_id, data):
     # key: word
     # value: list of occurrence counts
     total = []
