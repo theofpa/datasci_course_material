@@ -2,7 +2,7 @@ import MapReduce
 import sys
 
 """
-Invert index
+Relational Join using MapReduce
 """
 
 mr = MapReduce.MapReduce()
@@ -11,24 +11,17 @@ mr = MapReduce.MapReduce()
 # Do not modify above this line
 
 def mapper(record):
-    # key: document identifier
-    # value: document contents
-    recordtype = record[0]
     order_id = record[1]
-    data = []
-    if recordtype=='order':
-      for i in range(2,9):
-        data.append(record[i])
-        mr.emit_intermediate(order_id, data)
+    mr.emit_intermediate(order_id, record)
 
-def reducer(order_id, data):
+def reducer(order_id, record):
     # key: word
     # value: list of occurrence counts
-    total = []
-    for v in data:
-      if v not in total:
-        total.append(v)
-    mr.emit((order_id, total))
+    for v in record:
+      if v[0]=='order':
+        for j in record:
+          if j[0]=='line_item':
+            mr.emit((v + j))
 
 # Do not modify below this line
 # =============================
